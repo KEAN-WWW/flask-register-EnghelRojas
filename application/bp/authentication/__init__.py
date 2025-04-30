@@ -16,6 +16,13 @@ def registration():
     if form.validate_on_submit():
         email = form.email.data
         password = form.password.data
+
+        # 🔹 Check if user already exists
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            flash('Already Registered', 'danger')
+            return redirect(url_for('authentication.registration'))
+
         # Create a new User object
         new_user = User(email=email, password=password)
 
